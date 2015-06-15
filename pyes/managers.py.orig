@@ -505,11 +505,11 @@ class Cluster(object):
         if all_nodes:
             path = make_path('_shutdown')
         elif master:
-            path = make_path("_nodes", "_master", "_shutdown")
+            path = make_path("_cluster", "nodes", "_master", "_shutdown")
         elif nodes:
-            path = make_path("_nodes", ",".join(nodes), "_shutdown")
+            path = make_path("_cluster", "nodes", ",".join(nodes), "_shutdown")
         elif local:
-            path = make_path("_nodes", "_local", "_shutdown")
+            path = make_path("_cluster", "nodes", "_local", "_shutdown")
         if delay:
             try:
                 int(delay)
@@ -584,7 +584,7 @@ class Cluster(object):
                                list of indices to include in the response.
 
         """
-        path = make_path("_", "state")
+        path = make_path("_cluster", "state")
         parameters = {}
 
         if filter_nodes is not None:
@@ -612,7 +612,7 @@ class Cluster(object):
         The cluster :ref:`nodes info <es-guide-reference-api-admin-cluster-state>` API allows to retrieve one or more (or all) of
         the cluster nodes information.
         """
-        parts = ["_nodes"]
+        parts = ["_cluster", "nodes"]
         if nodes:
             parts.append(",".join(nodes))
         path = make_path(*parts)
@@ -632,9 +632,9 @@ class Cluster(object):
         The cluster :ref:`nodes info <es-guide-reference-api-admin-cluster-nodes-stats>` API allows to retrieve one or more (or all) of
         the cluster nodes information.
         """
-        parts = ["_nodes", "stats"]
+        parts = ["_cluster", "nodes", "stats"]
         if nodes:
-            parts = ["_nodes", ",".join(nodes), "stats"]
+            parts = ["_cluster", "nodes", ",".join(nodes), "stats"]
 
         path = make_path(*parts)
         return self.conn._send_request('GET', path)

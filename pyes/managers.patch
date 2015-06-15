@@ -1,0 +1,47 @@
+--- managers.py.orig    2015-02-11 14:20:49.428124337 +0100
++++ managers.py 2015-02-11 14:53:30.283293505 +0100
+@@ -495,11 +495,11 @@
+         if all_nodes:
+             path = make_path('_shutdown')
+         elif master:
+-            path = make_path("_cluster", "nodes", "_master", "_shutdown")
++            path = make_path("_nodes", "_master", "_shutdown")
+         elif nodes:
+-            path = make_path("_cluster", "nodes", ",".join(nodes), "_shutdown")
++            path = make_path("_nodes", ",".join(nodes), "_shutdown")
+         elif local:
+-            path = make_path("_cluster", "nodes", "_local", "_shutdown")
++            path = make_path("_nodes", "_local", "_shutdown")
+         if delay:
+             try:
+                 int(delay)
+@@ -574,7 +574,7 @@
+                                list of indices to include in the response.
+
+         """
+-        path = make_path("_cluster", "state")
++        path = make_path("_", "state")
+         parameters = {}
+
+         if filter_nodes is not None:
+@@ -602,7 +602,7 @@
+         The cluster :ref:`nodes info <es-guide-reference-api-admin-cluster-state>` API allows to retrieve one or more (or all) of
+         the cluster nodes information.
+         """
+-        parts = ["_cluster", "nodes"]
++        parts = ["_nodes"]
+         if nodes:
+             parts.append(",".join(nodes))
+         path = make_path(*parts)
+@@ -622,9 +622,9 @@
+         The cluster :ref:`nodes info <es-guide-reference-api-admin-cluster-nodes-stats>` API allows to retrieve one or more (or all) of
+         the cluster nodes information.
+         """
+-        parts = ["_cluster", "nodes", "stats"]
++        parts = ["_nodes", "stats"]
+         if nodes:
+-            parts = ["_cluster", "nodes", ",".join(nodes), "stats"]
++            parts = ["_nodes", ",".join(nodes), "stats"]
+
+         path = make_path(*parts)
+         return self.conn._send_request('GET', path)
